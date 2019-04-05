@@ -1,47 +1,58 @@
+
+
 <!DOCTYPE html>
-
+<html>
 <head>
-
- <!--   
-    <title>This Hackaton is Crazy!</title>
+    <title>Google Sheet Data</title>
+ 
+<!--     <link rel="stylesheet" href="styles.css"> -->
+ <style>
+   .tTable {
+            display: table;
+            width: 100%;
+        }
+        .tRow {
+            display: table-row;
+        }
+        .tCell {
+            border: 5px solid #eee;
+            display: table-cell;
+            padding: 3px 5px;
+            
+        }
+        .tBody {
+            display: table-row-group;
+        }
+        
+        .tTitle {
+            font-weight: bold;
+        }
+  </style>
 </head>
 <body>
-    <div class="spreadsheetHTML">
-        <H1 id="here">Employee Information</H1>
+    <div class="container">
+        <span id="heading"></span>
     </div>
-    <div class="eventButton">
-        <button onclick="renderEmployeeInfo()">Show Me!</button>
+    <div class="tTable">
+        <div class="tBody">
+            <div class="tRow">
+                <div class="tCell">Name</div>
+                <div class="tCell">Department</div>
+                <div class="tCell">Salary</div>
+            </div>
+        </div>
     </div>
-    <script src="script.js"></script>
-    <script src="//script.sheetsu.com/"></script>
-
-</body> -->
-
-
-
-</head>
- <!--   <script src="script.js"></script>
-  </head>
-  <body>
-    <div class="ButtonDiv">
-        <button onclick="successFunc()">Showme!</button>
-    </div>
-    <script src="//load.sheetsu.com"></script>
--->
-
-<script src="script.js"></script>
-  </head>
-  <body>
-    <div class="ButtonDiv">
-        <button onclick="getSpreadsheetData()">Showme!</button>
-    </div>
-    <script src="//load.sheetsu.com"></script>
-
-
-
-
-
-  </body>
+    <script data-require="jquery@*" data-semver="3.2.1" src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+       <script>
+  var url = 'https://spreadsheets.google.com/feeds/list/1f4Z2YkjUMPd8uI8n9EcSoRV6gaKtYy8nwS011xu8Nxs/1/public/values?alt=json';
+        $.getJSON(url, function(data) {
+            var headInfo = data.feed.title.$t;
+            $('#heading').html('<h1>' + headInfo + '</h1>');
+            var entryData = data.feed.entry;
+            jQuery.each(entryData, function() {
+                $('.tBody').append('<div class="tRow"><div class="tCell">' + this.gsx$name.$t + '</div><div class="tCell">' + this.gsx$department.$t + '</div><div class="tCell">' + this.gsx$salary.$t + '</div></div>');
+            })
+        });
+  </script> 
+</body>
 </html>
-
-
